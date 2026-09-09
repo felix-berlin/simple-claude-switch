@@ -63,4 +63,4 @@ state as `.bak` files first.
 
 ## License
 
-MIT
+GPLv3
