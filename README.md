@@ -22,13 +22,23 @@ shared and is never duplicated.
 
 ## Requirements
 
-- `jq`
-- bash or zsh
+- macOS / Linux / WSL / Git Bash: `jq`, bash or zsh
+- Native Windows (PowerShell): no extra dependency, uses built-in JSON cmdlets
 
 ## Install
 
+macOS, Linux, WSL, or Git Bash on Windows:
+
 ```bash
 curl -o ~/.scs.sh https://raw.githubusercontent.com/felix-berlin/simple-claude-switch/main/scs.sh && grep -qxF 'source ~/.scs.sh' ~/.zshrc 2>/dev/null || echo 'source ~/.scs.sh' >> ~/.zshrc && source ~/.zshrc
+```
+
+Native Windows (PowerShell):
+
+```powershell
+Invoke-WebRequest https://raw.githubusercontent.com/felix-berlin/simple-claude-switch/main/scs.ps1 -OutFile "$HOME\.scs.ps1"
+Add-Content $PROFILE "`n. `"$HOME\.scs.ps1`""
+. $PROFILE
 ```
 
 ## Usage

@@ -84,24 +84,28 @@ scs() {
             echo "$name" > "$SCS_ACTIVE_FILE"
             echo "Active Claude account: $name"
 
-            local reply
-            read -r -p "Kill running Claude CLI sessions now so they restart as '$name'? [y/N] " reply
-            if [[ "$reply" =~ ^[Yy]$ ]]; then
-                # ponytail: only matches the CLI binary path and excludes
-                # claude-mem's internal sub-agent calls (marked by
-                # --disallowedTools). Doesn't touch the VS Code extension,
-                # see note below — no ancestry-based kill detection yet,
-                # add if needed.
-                local pid pids=""
-                for pid in $(pgrep -f "$HOME/.local/bin/claude "); do
-                    ps -p "$pid" -o args= 2>/dev/null | grep -q -- "--disallowedTools" && continue
-                    pids="$pids $pid"
-                done
-                if [ -n "$pids" ]; then
-                    kill $pids 2>/dev/null
-                    echo "Killed:$pids"
-                else
-                    echo "No running Claude CLI session found."
+            if ! command -v pgrep >/dev/null 2>&1; then
+                echo "pgrep not available (e.g. Git Bash without procps) — restart Claude CLI sessions manually."
+            else
+                local reply
+                read -r -p "Kill running Claude CLI sessions now so they restart as '$name'? [y/N] " reply
+                if [[ "$reply" =~ ^[Yy]$ ]]; then
+                    # ponytail: only matches the CLI binary path and excludes
+                    # claude-mem's internal sub-agent calls (marked by
+                    # --disallowedTools). Doesn't touch the VS Code extension,
+                    # see note below — no ancestry-based kill detection yet,
+                    # add if needed.
+                    local pid pids=""
+                    for pid in $(pgrep -f "$HOME/.local/bin/claude "); do
+                        ps -p "$pid" -o args= 2>/dev/null | grep -q -- "--disallowedTools" && continue
+                        pids="$pids $pid"
+                    done
+                    if [ -n "$pids" ]; then
+                        kill $pids 2>/dev/null
+                        echo "Killed:$pids"
+                    else
+                        echo "No running Claude CLI session found."
+                    fi
                 fi
             fi
             echo "VS Code: the Claude extension does not reconnect automatically — use Command Palette -> 'Developer: Reload Window'."
