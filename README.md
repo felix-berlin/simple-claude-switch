@@ -33,6 +33,9 @@ macOS, Linux, WSL, or Git Bash on Windows:
 curl -o ~/.scs.sh https://raw.githubusercontent.com/felix-berlin/simple-claude-switch/main/scs.sh && grep -qxF 'source ~/.scs.sh' ~/.zshrc 2>/dev/null || echo 'source ~/.scs.sh' >> ~/.zshrc && source ~/.zshrc
 ```
 
+On Git Bash, install `jq` first if you don't have it (`winget install jqlang.jq` or `choco install jq`).
+Git Bash also ships without `pgrep` (no `procps`) — `scs use` still works, it just skips the "kill running sessions" step and tells you to restart Claude manually.
+
 Native Windows (PowerShell):
 
 ```powershell
