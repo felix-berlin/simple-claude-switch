@@ -28,9 +28,7 @@ shared and is never duplicated.
 ## Install
 
 ```bash
-curl -o ~/.scs.sh https://raw.githubusercontent.com/felix-berlin/simple-claude-switch/main/scs.sh
-echo 'source ~/.scs.sh' >> ~/.zshrc   # or ~/.bashrc
-source ~/.zshrc
+curl -o ~/.scs.sh https://raw.githubusercontent.com/felix-berlin/simple-claude-switch/main/scs.sh && grep -qxF 'source ~/.scs.sh' ~/.zshrc 2>/dev/null || echo 'source ~/.scs.sh' >> ~/.zshrc && source ~/.zshrc
 ```
 
 ## Usage
